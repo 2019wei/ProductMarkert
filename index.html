@@ -66,7 +66,7 @@
         let vegList=[];
         const fruitKeyword = ['鳳梨'];
         const vegKeyword = ['玉米'];
-        const favoritesKeyword = [];
+        let favoritesKeyword = [];
         window.onload = pageInit();
 
         function pageInit() {
@@ -77,12 +77,12 @@
             selectDate.value = today;
             //預設市場 - 台北一
             selectMarketName.value = '台北一'
+            //載入cookie
+            loadFavorite()
             //call 蔬菜水果api
             getDataApi();
             // getFruitApi();
             // getVegApi();
-            getCookie('favorites')
-            showFavorite()
         }
         //加入loading
         function addLoading(){
@@ -142,8 +142,9 @@
 
             setCookie("favorites", favorites.join(","));
         }
-        //show cookie
-        function showFavorite(){
+        //載入 cookie
+        function loadFavorite(){
+            favoritesKeyword = [];
             var favorites = getCookie("favorites").split(",");
             favorites.forEach(element => {
                 favoritesKeyword.push(element)
@@ -153,6 +154,8 @@
         
         //當日期 市場名稱改變
         function DateAndNameChangeEvent(){
+            //載入cookie
+            loadFavorite()
             //call 蔬菜水果api
             getDataApi();
             // getFruitApi();
@@ -199,7 +202,7 @@
                     const response1 = responses[0];
                     const response2 = responses[1];
                     
-                    console.log('API 1 数据:', response1.data);
+                    //console.log('API 1 数据:', response1.data);
                     //console.log('API 2 数据:', response2.data);
 
                     // 继续执行其他操作
